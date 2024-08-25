@@ -43,13 +43,13 @@
 
 ## class 3 - 
 
-import random
-from models import User, engine
-from sqlalchemy.orm import sessionmaker
+# import random
+# from models import User, engine
+# from sqlalchemy.orm import sessionmaker
 
-Session = sessionmaker(bind=engine)
+# Session = sessionmaker(bind=engine)
 
-session = Session()
+# session = Session()
 
 # names = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hannah", "Ivy", "Jack"]
 # ages = [20, 21,22,23,25,27,30,35,60]
@@ -61,8 +61,72 @@ session = Session()
 # session.commit()
 
 # order by - 
-users = session.query(User).order_by(User.age, User.name).all()
-for user in users:
-    print({"user_id" : user.id, "name" : user.name, "age" : user.age})
+# users = session.query(User).order_by(User.age, User.name).all()
+# for user in users:
+#     print({"user_id" : user.id, "name" : user.name, "age" : user.age})
 
+
+## Class - 4 ::
+import random
+from models import User, engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import or_, and_, not_
+
+
+Session = sessionmaker(bind=engine)
+
+session = Session()
+# users_all = session.query(User).all()
+# users_filtered = session.query(User).filter(User.age >= 25, User.name == "David").all()
+# print("All Users : ", len(users_all))
+# print("Filtered Users : ", len(users_filtered))
+
+# users = session.query(User).filter_by(age=25).all()
+
+# for user in users:
+#     print(f"user age : {user.age}")
+
+# users = session.query(User).where(User.age >= 30).all()
+
+# for user in users:
+#     print(f"user age : {user.age}")
+
+# OR - 
+# users = session.query(User).where(or_(User.age >= 25, User.name == "David")).all()
+# for user in users:
+#     print(f"user age : {user.age} User name : {user.name}")
+
+# users = session.query(User).where((User.age >= 25) | (User.name == "David")).all()
+# for user in users:
+#     print(f"user age : {user.age} User name : {user.name}")
+
+# AND - 
+# users = session.query(User).where(and_(User.age >= 25, User.name == "David")).all()
+# for user in users:
+#     print(f"user age : {user.age} User name : {user.name}")
+
+# users = session.query(User).where((User.age >= 25) & (User.name == "David")).all()
+# for user in users:
+#     print(f"user age : {user.age} User name : {user.name}")
+
+
+# NOT - 
+# users = session.query(User).where(not_(User.name == "David")).all()
+# for user in users:
+#     print(f"user age : {user.age} User name : {user.name}")
+
+
+# Combination - 
+
+users = session.query(User).where(
+                                or_(
+                                    not_(User.name == "David"), 
+                                    and_(
+                                        User.age > 35, 
+                                        User.age < 60
+                                        )
+                                    )
+                                ).all()
+for user in users:
+    print(f"user age : {user.age} User name : {user.name}")
 
