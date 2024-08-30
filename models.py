@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, create_engine, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy import  Column, Integer, String, create_engine, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, declarative_base, relationship, sessionmaker
 
 
 DATABASE_URL = "sqlite:///./learning.db"  # Path to your SQLite database file"
@@ -12,32 +12,79 @@ session = Session()
 Base = declarative_base()
 
 
+# class BaseModel(Base):
+#     __abstract__ = True
+#     __allow_unmapped__ = True
+
+#     id = Column(Integer, primary_key=True)
+
+# class Address(BaseModel):
+#     __tablename__ = 'addresses'
+
+#     city = Column(String)
+#     state = Column(String)
+#     zip_code = Column(Integer)
+#     # user_id = Column(ForeignKey("users.id"))
+#     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+#     # user = relationship("User", back_populates="addresses")
+#     user: Mapped["User"] = relationship(back_populates="addresses")
+
+#     def __repr__(self):
+#         return f"<Address(id={self.id}, city={self.city})>"
+
+# class User(BaseModel):
+#     __tablename__ = "users"
+
+#     name = Column(String)
+#     age = Column(Integer)
+#     # addresses = relationship(Address)
+#     addresses: Mapped[list["Address"]] = relationship()
+
+#     def __repr__(self):
+#         return f"<User(id={self.id}, name={self.name})>"
+
+
+# class User(Base):
+#     __tablename__ = "users"
+#     __allow_unmapped__ = True
+
+#     id = Column(Integer, primary_key=True)
+
+#     username = Column(String)
+#     following_id = Column(Integer, ForeignKey('users.id'))
+#     following = relationship('User', remote_side=[id], uselist=True)
+    
+
+#     def __repr__(self):
+#         return f"<User(id={self.id}, name={self.username}), following={self.following})>"
+
+
+
+## resolving circular dependency error - 
 class BaseModel(Base):
     __abstract__ = True
     __allow_unmapped__ = True
 
     id = Column(Integer, primary_key=True)
 
-class Address(BaseModel):
-    __tablename__ = 'addresses'
 
-    city = Column(String)
-    state = Column(String)
-    zip_code = Column(Integer)
-    user_id = Column(ForeignKey("users.id"))
-    user = relationship("User")
-
-    def __repr__(self):
-        return f"<Address(id={self.id}, city={self.city})>"
+class FollowingAssociation(BaseModel):
+    __tablename__ = "following_association"
+    user_id = Column(Integer, ForeignKey("users.id"))
+    following_id = Column(Integer, ForeignKey("users.id"))
 
 class User(BaseModel):
     __tablename__ = "users"
 
-    name = Column(String)
-    age = Column(Integer)
-    addresses = relationship(Address)
+    username = Column(String)
+    following = relationship('User', secondary='following_association',
+                             primaryjoin=("FollowingAssociation.user_id==User.id"),
+                             secondaryjoin=("FollowingAssociation.following_id==User.id"),
+                             )
 
     def __repr__(self):
-        return f"<User(id={self.id}, name={self.name})>"
+        return f"<User(id={self.id}, name={self.username}), following={self.following})>"
+
+
 
 Base.metadata.create_all(engine)
