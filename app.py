@@ -1,5 +1,5 @@
 # from models import Address, session, User
-from models import session, User
+from models import session, Course, StudentCourse, Student
 
 
 
@@ -28,21 +28,37 @@ from models import session, User
 # print(f"{address1.user = }")
 
 
-user1 = User(username = "Atal Bajpai 1")
-user2 = User(username = "Atal Bajpai 2")
-user3 = User(username = "Atal Bajpai 3")
+# user1 = User(username = "Atal Bajpai 1")
+# user2 = User(username = "Atal Bajpai 2")
+# user3 = User(username = "Atal Bajpai 3")
 
-## craete relationships - 
-user1.following.append(user2)
-user2.following.append(user3)
-user3.following.append(user1)
+# ## craete relationships - 
+# user1.following.append(user2)
+# user2.following.append(user3)
+# user3.following.append(user1)
 
-## adding users to session - 
-session.add_all([user1, user2, user3])
-session.commit()
+# ## adding users to session - 
+# session.add_all([user1, user2, user3])
+# session.commit()
 
-print(f"{user1.following = }")
-print(f"{user2.following = }")
-print(f"{user3.following = }")
+# print(f"{user1.following = }")
+# print(f"{user2.following = }")
+# print(f"{user3.following = }")
+
+
+################################################################
+# MANY to MANY relationship - 
+# math = Course(title='Mathematics')
+# physics = Course(title='Physics')
+# bill = Student(name = 'Bill', courses=[math, physics])
+# rob = Student(name='Rob', courses=[math])
+
+# session.add_all([math, physics, bill, rob])
+# session.commit()
+
+
+rob = session.query(Student).filter_by(name='Rob').first()
+courses = [course.title for course in rob.courses]
+print(f"Rob's courses : {', '.join(courses)}")
 
 
