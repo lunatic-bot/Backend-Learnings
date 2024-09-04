@@ -102,27 +102,29 @@ Base = declarative_base()
 #                             )
 
 # Also, we can write this table int his way - 
-class StudentCourse(Base):
-    __tablename__ = 'student_course'
-    id = Column(Integer, primary_key= True)
-    student_id = Column('student_id', Integer, ForeignKey('students.id'))
-    course_id = Column('course_id', Integer, ForeignKey('courses.id'))
-    # grade = Column(Integer)
+# class StudentCourse(Base):
+#     __tablename__ = 'student_course'
+#     id = Column(Integer, primary_key= True)
+#     student_id = Column('student_id', Integer, ForeignKey('students.id'))
+#     course_id = Column('course_id', Integer, ForeignKey('courses.id'))
+#     # grade = Column(Integer)
 
 
-class Student(Base):
-    __tablename__ = 'students'
-    id = Column(Integer, primary_key= True)
-    name = Column(String)
-    # courses = relationship("Course", secondary=student_course_link)
-    courses = relationship("Course", secondary='student_course', back_populates='students')
+# class Student(Base):
+#     __tablename__ = 'students'
+#     id = Column(Integer, primary_key= True)
+#     name = Column(String)
+#     # courses = relationship("Course", secondary=student_course_link)
+#     courses = relationship("Course", secondary='student_course', back_populates='students')
 
 
-class Course(Base):
-    __tablename__ = 'courses'
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
-    # students = relationship("Student", secondary=student_course_link)
-    students = relationship("Student", secondary='student_course', back_populates='courses')
+# class Course(Base):
+#     __tablename__ = 'courses'
+#     id = Column(Integer, primary_key=True)
+#     title = Column(String)
+#     # students = relationship("Student", secondary=student_course_link)
+#     students = relationship("Student", secondary='student_course', back_populates='courses')
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
+
+

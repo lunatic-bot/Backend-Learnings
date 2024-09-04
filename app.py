@@ -1,64 +1,52 @@
-# from models import Address, session, User
-from models import session, Course, StudentCourse, Student
+from sqlalchemy import Column, ForeignKey, Integer, create_engine, String, Text
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+
+db_url = "sqlite:///database.db"
+
+engine = create_engine(db_url, echo=True)
+Session = sessionmaker(bind=engine)
+session = Session()
+
+Base = declarative_base()
 
 
+# Relationship loading techniques - 
 
-# Clase - 6
-## creating users - 
-# user1 = User(name = "Jhon Doe", age=52)
-# user2 = User(name = "Jane Smith", age=34)
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    posts = relationship('Post', lazy='select', backref='user')
 
-# ## creating addresses - 
-# address1 = Address(city = "New York", state="NY", zip_code="10001")
-# address2 = Address(city = "Los Angeles", state="CA", zip_code="90001")
-# address3 = Address(city = "Chicago", state="IL", zip_code="66001")
+    def __repr__(self):
+        return f'<User {self.name} >'
+    
+class Post(Base):
+    __tablename__ = 'posts'
+    id = Column(Integer, primary_key=True)
+    content = Column(Text)
+    user_id = Column(Integer, ForeignKey('users.id'))
 
-# ## associating users to addresses - 
-# user1.addresses.extend([address1, address2])
-# user2.addresses.append(address3)
+    def __repr__(self):
+        return f'<Post {self.id} >'
+    
 
-# session.add(user1)
-# session.add(user2)
-
-# session.commit()
-# # session.refresh()
-
-# print(f"{user1.addresses = }")
-# print(f"{user2.addresses = }")
-# print(f"{address1.user = }")
+Base.metadata.create_all(engine)
 
 
-# user1 = User(username = "Atal Bajpai 1")
-# user2 = User(username = "Atal Bajpai 2")
-# user3 = User(username = "Atal Bajpai 3")
+new_user = User(
+    name = "Bob",
+    posts = [
+        Post(content = f"Thisn is the content for {x}")
+        for x in range(1, 5)
+    ]
+)
 
-# ## craete relationships - 
-# user1.following.append(user2)
-# user2.following.append(user3)
-# user3.following.append(user1)
+session.add(new_user)
+session.commit()
+user = session.query(User).first()
 
-# ## adding users to session - 
-# session.add_all([user1, user2, user3])
-# session.commit()
-
-# print(f"{user1.following = }")
-# print(f"{user2.following = }")
-# print(f"{user3.following = }")
-
-
-################################################################
-# MANY to MANY relationship - 
-# math = Course(title='Mathematics')
-# physics = Course(title='Physics')
-# bill = Student(name = 'Bill', courses=[math, physics])
-# rob = Student(name='Rob', courses=[math])
-
-# session.add_all([math, physics, bill, rob])
-# session.commit()
-
-
-rob = session.query(Student).filter_by(name='Rob').first()
-courses = [course.title for course in rob.courses]
-print(f"Rob's courses : {', '.join(courses)}")
-
-
+print("Accessing user - ")
+print(user)
+print("accessing the post specifically.")
+print(user.posts)
