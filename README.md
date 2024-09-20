@@ -1,23 +1,40 @@
-# Backend Learnings
+# SQLAlchemy Learnings
 
-Welcome to my Backend Learnings Repository! 🎉
+Welcome to my **SQLAlchemy Learnings** Repository! 🎉
 
-This repository is dedicated to documenting my journey in learning Python backend development, focusing on **FastAPI**. Here, you'll find a collection of code samples, projects, and notes that I've accumulated as I dive deeper into the world of backend development. Whether you're just starting out or looking to level up your skills, I hope you find this repository helpful!
-
+This repository is dedicated to documenting my journey in mastering **SQLAlchemy** with Python. You will find code samples, projects, and notes that reflect my progress in understanding and using SQLAlchemy for database management and integration in backend development. If you're interested in deepening your knowledge of databases in Python, I hope you find this repository useful and insightful!
 
 ## 📖 Introduction
 
-FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints. It offers a simple yet powerful way to build web applications and APIs, making it a great choice for both beginners and experienced developers. This repository serves as a personal learning journal where I track my progress, experiment with new concepts, and build projects using FastAPI.
+**SQLAlchemy** is a powerful SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides a full suite of well-known enterprise-level persistence patterns, designed for efficient and high-performing database access. This repository focuses on various SQLAlchemy features, patterns, and best practices to help streamline database operations in Python projects.
+
+Through these learnings, I also aim to explore the integration of SQLAlchemy with Python web frameworks such as FastAPI, allowing for seamless database management in modern backend applications.
 
 ## 🚀 Getting Started
 
-If you'd like to follow along with my journey or use this repository as a reference, here's how you can get started:
+If you'd like to explore my SQLAlchemy learning journey or use this repository as a reference, here’s how you can get started:
 
 ### Prerequisites
 
 - Python 3.7+
-- FastAPI
-- Uvicorn
-- SQLAlchemy (Optional for database projects)
+- SQLAlchemy
+- SQLite or PostgreSQL (for database usage)
+- FastAPI (Optional for integrating with web frameworks)
 
+## 📂 Repository Structure
 
+- **Code Samples**: Short snippets illustrating different SQLAlchemy functionalities such as models, sessions, relationships, etc.
+- **Notes**: Documentation on concepts, tips, and tricks learned while working with SQLAlchemy.
+
+## 📚 Key Concepts Covered
+
+- Defining Models and Tables using SQLAlchemy ORM
+- Querying databases and executing SQL commands
+- Handling relationships (One-to-One, One-to-Many, Many-to-Many)
+- Database migrations and schema management
+- Connecting SQLAlchemy with web frameworks like FastAPI
+- Best practices in designing database schemas
+
+---
+
+Feel free to explore, and I hope this repository serves as a valuable resource for your SQLAlchemy learning journey!
